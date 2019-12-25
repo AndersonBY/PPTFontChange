@@ -2,7 +2,7 @@
 # @Author: Anderson
 # @Date:   2019-07-03 15:36:58
 # @Last Modified by:   Anderson
-# @Last Modified time: 2019-07-03 18:00:30
+# @Last Modified time: 2019-07-19 15:06:02
 from pptx import Presentation
 from pptx.enum.shapes import MSO_SHAPE_TYPE
 import glob
@@ -14,6 +14,8 @@ def set_text_frame_font(text_frame):
 		for run in paragraph.runs:
 			if run.font.name in fonts_to_be_replaced:
 				run.font.name = fonts_to_be_replaced[run.font.name]
+			elif run.font.name is None:
+				run.font.name = '思源黑体'
 
 
 def check_shape(shape):
@@ -33,7 +35,8 @@ def check_shape(shape):
 fonts_to_be_replaced = {
 	'微软雅黑': '思源黑体',
 	'Microsoft YaHei': '思源黑体',
-	'等线': '思源黑体'
+	'等线': '思源黑体',
+	'Open Sans': '思源黑体'
 }
 
 for file in glob.glob('input/*.pptx'):
