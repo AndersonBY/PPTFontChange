@@ -2,7 +2,7 @@
 # @Author: Anderson
 # @Date:   2019-07-03 15:36:58
 # @Last Modified by:   Anderson
-# @Last Modified time: 2020-09-24 18:22:36
+# @Last Modified time: 2021-04-15 02:01:45
 from pptx import Presentation
 from pptx.enum.shapes import MSO_SHAPE_TYPE
 from pptx.oxml.ns import qn
@@ -15,7 +15,12 @@ def set_text_frame_font(text_frame):
 		for run in paragraph.runs:
 			if run.font.name in fonts_to_be_replaced:
 				run.font.name = fonts_to_be_replaced[run.font.name]
-				run.font._rPr.find(qn('a:ea')).set('typeface', run.font.name)
+				if run.font._rPr.find(qn('a:ea')) is not None:
+					run.font._rPr.find(qn('a:ea')).set('typeface', run.font.name)
+				else:
+					element = run.font._rPr.makeelement(qn('a:ea'))
+					element.set('typeface', run.font.name)
+					run.font._rPr.append(element)
 			elif run.font.name is None:
 				run.font.name = '思源黑体'
 
